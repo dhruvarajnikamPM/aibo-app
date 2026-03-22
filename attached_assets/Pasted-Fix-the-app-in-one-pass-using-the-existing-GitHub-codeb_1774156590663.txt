@@ -1,0 +1,78 @@
+Fix the app in one pass using the existing GitHub codebase.
+
+CRITICAL GOALS:
+1. Language selection must actually work.
+2. Each class must show different content.
+3. No lesson, quiz, or flow should be repeated across classes.
+4. Keep changes minimal and safe because I have limited usage left.
+5. Use the uploaded curriculum only as the source of truth, but do not try to load the entire 60 pages now.
+
+WHAT IS BROKEN RIGHT NOW:
+- Language selection changes the UI only visually or not at all.
+- All classes are showing the same lesson/session.
+- Content is not isolated by class.
+- The app still feels generic instead of class-specific.
+
+FIX THESE THINGS EXACTLY:
+
+A) LANGUAGE SYSTEM FIX
+- Make the selected language persist and apply to ALL visible UI text.
+- Update buttons, headings, lesson titles, helper text, and feedback text based on the selected language.
+- Support at least: English, Hindi, Marathi.
+- If a translated string is missing, fall back cleanly instead of breaking.
+- Technical terms should be shown in English with local translation where needed.
+
+B) CLASS ISOLATION FIX
+- Every lesson, quiz, reward, and dashboard item must be filtered by class_id.
+- Class 5 must only see Class 5 content.
+- Class 6 must only see Class 6 content.
+- Class 7 must only see Class 7 content.
+- Class 8 must only see Class 8 content.
+- Class 9 must only see Class 9 content.
+- Class 10 must only see Class 10 content.
+- No shared default lesson list across all classes.
+
+C) DATA SPLIT BY CLASS
+Create a minimal unique seed set so each class has its own distinct first lesson and distinct first experience:
+- Class 5: What is AI?
+- Class 6: What is a Pattern?
+- Class 7: Types of Data
+- Class 8: The ML Pipeline
+- Class 9: What is an Algorithm?
+- Class 10: What is AI Bias?
+
+Each class must have:
+- its own lesson title
+- its own short description
+- its own quiz question
+- its own lesson tone
+- its own interaction style
+
+D) UI DIFFERENTIATION BY CLASS
+Make each class feel slightly different, without changing the whole architecture:
+- Class 5: playful and simple
+- Class 6: exploratory and friendly
+- Class 7: structured and clear
+- Class 8: analytical and clean
+- Class 9: technical and focused
+- Class 10: mature and ethical/debate-ready
+
+E) DO NOT OVERBUILD
+- Do not create a full new architecture.
+- Do not rewrite the app.
+- Do not add unnecessary files.
+- Keep changes focused on language, isolation, and class-specific data.
+- If a feature cannot be completed cleanly, keep it as a TODO placeholder rather than making the app generic.
+
+F) SUCCESS CONDITION
+After the fix:
+- Changing language must visibly update the app.
+- Changing class must show different lessons and content.
+- Each class must have a different first lesson/session.
+- The app must no longer show the same repeated content for all classes.
+
+After making the changes, tell me exactly:
+- which files were modified
+- what language system was fixed
+- how class isolation was implemented
+- what minimal data was added for each class

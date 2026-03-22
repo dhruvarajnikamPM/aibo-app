@@ -15,23 +15,16 @@ import Animated, {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import PrimaryButton from "@/components/ui/PrimaryButton";
 import Colors from "@/constants/colors";
-import { GRADES } from "@/data/curriculum";
+import { GRADES, CLASS_CONFIG } from "@/data/curriculum";
+import { makeT } from "@/data/i18n";
 import { useApp } from "@/context/AppContext";
 import { Grade } from "@/types";
 
-const GRADE_DESCRIPTIONS: Record<Grade, string> = {
-  5: "Beginner explorer",
-  6: "Data discoverer",
-  7: "Logic builder",
-  8: "Language learner",
-  9: "Algorithm thinker",
-  10: "AI ethicist",
-};
-
 export default function GradeScreen() {
   const insets = useSafeAreaInsets();
-  const { setGrade, completeOnboarding } = useApp();
+  const { setGrade, completeOnboarding, profile } = useApp();
   const [selected, setSelected] = useState<Grade | null>(null);
+  const t = makeT(profile.language);
 
   const handleSelect = (grade: Grade) => {
     setSelected(grade);
@@ -54,15 +47,14 @@ export default function GradeScreen() {
         >
           <Feather name="arrow-left" size={22} color={Colors.text} />
         </Pressable>
-        <Text style={styles.title}>What class are you in?</Text>
-        <Text style={styles.subtitle}>
-          We will customize your AI learning journey
-        </Text>
+        <Text style={styles.title}>{t("whichClass")}</Text>
+        <Text style={styles.subtitle}>{t("gradeHint")}</Text>
       </Animated.View>
 
       <View style={styles.gradesContainer}>
         {GRADES.map((grade, idx) => {
           const isSelected = selected === grade;
+          const config = CLASS_CONFIG[grade];
           return (
             <Animated.View
               key={grade}
@@ -70,23 +62,29 @@ export default function GradeScreen() {
             >
               <Pressable
                 onPress={() => handleSelect(grade)}
-                style={[styles.card, isSelected && styles.cardSelected]}
+                style={[
+                  styles.card,
+                  isSelected && { borderColor: config.accent, backgroundColor: config.accentBg },
+                ]}
               >
-                <View style={[styles.gradeNumWrap, isSelected && styles.gradeNumWrapSelected]}>
+                <View style={[
+                  styles.gradeNumWrap,
+                  isSelected && { backgroundColor: config.accent },
+                ]}>
                   <Text style={[styles.gradeNum, isSelected && styles.gradeNumSelected]}>
                     {grade}
                   </Text>
                 </View>
                 <View style={styles.cardContent}>
-                  <Text style={[styles.gradeLabel, isSelected && styles.gradeLabelSelected]}>
-                    Class {grade}
+                  <Text style={[styles.gradeLabel, isSelected && { color: config.accent }]}>
+                    {t("class_")} {grade}
                   </Text>
-                  <Text style={[styles.gradeDesc, isSelected && styles.gradeDescSelected]}>
-                    {GRADE_DESCRIPTIONS[grade]}
+                  <Text style={[styles.gradeDesc, isSelected && { color: config.accent }]}>
+                    {config.tag} · {config.tone}
                   </Text>
                 </View>
                 {isSelected && (
-                  <Feather name="check-circle" size={22} color={Colors.primary} />
+                  <Feather name="check-circle" size={22} color={config.accent} />
                 )}
               </Pressable>
             </Animated.View>
@@ -96,7 +94,7 @@ export default function GradeScreen() {
 
       <View style={[styles.footer, { paddingBottom: insets.bottom + 16 }]}>
         <PrimaryButton
-          label="Start Learning"
+          label={t("startLearning")}
           onPress={handleContinue}
           disabled={!selected}
         />
@@ -153,10 +151,6 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 2,
   },
-  cardSelected: {
-    borderColor: Colors.primary,
-    backgroundColor: Colors.primaryPale,
-  },
   gradeNumWrap: {
     width: 48,
     height: 48,
@@ -164,9 +158,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
     alignItems: "center",
     justifyContent: "center",
-  },
-  gradeNumWrapSelected: {
-    backgroundColor: Colors.primary,
   },
   gradeNum: {
     fontFamily: "Inter_700Bold",
@@ -185,16 +176,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.text,
   },
-  gradeLabelSelected: {
-    color: Colors.primaryDark,
-  },
   gradeDesc: {
     fontFamily: "Inter_400Regular",
     fontSize: 13,
     color: Colors.textSecondary,
-  },
-  gradeDescSelected: {
-    color: Colors.primary,
   },
   footer: {
     paddingHorizontal: 24,

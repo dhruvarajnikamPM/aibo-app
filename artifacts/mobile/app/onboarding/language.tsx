@@ -18,12 +18,14 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import PrimaryButton from "@/components/ui/PrimaryButton";
 import Colors from "@/constants/colors";
 import { LANGUAGES } from "@/data/curriculum";
+import { makeT } from "@/data/i18n";
 import { useApp } from "@/context/AppContext";
 
 export default function LanguageScreen() {
   const insets = useSafeAreaInsets();
   const { setLanguage, profile } = useApp();
   const [selected, setSelected] = useState(profile.language || "en");
+  const t = makeT(selected);
 
   const handleSelect = (code: string) => {
     setSelected(code);
@@ -43,10 +45,8 @@ export default function LanguageScreen() {
           style={styles.logo}
           contentFit="contain"
         />
-        <Text style={styles.title}>Choose your language</Text>
-        <Text style={styles.subtitle}>
-          Select the language you are comfortable with
-        </Text>
+        <Text style={styles.title}>{t("chooseLanguage")}</Text>
+        <Text style={styles.subtitle}>{t("selectLanguageHint")}</Text>
       </Animated.View>
 
       <ScrollView
@@ -87,7 +87,7 @@ export default function LanguageScreen() {
 
       <View style={[styles.footer, { paddingBottom: insets.bottom + 16 }]}>
         <PrimaryButton
-          label="Continue"
+          label={t("continue_")}
           onPress={handleContinue}
           disabled={!selected}
         />
