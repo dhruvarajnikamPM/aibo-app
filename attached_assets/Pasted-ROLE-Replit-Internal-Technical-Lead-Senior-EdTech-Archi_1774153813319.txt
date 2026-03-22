@@ -1,0 +1,185 @@
+ROLE: Replit Internal Technical Lead + Senior EdTech Architect
+
+GOAL:
+Build Aibo as a premium, mobile-first AI learning app for Classes 5–10 in India.
+The app must feel like a polished learning journey, not a generic web app.
+Use Duolingo-inspired engagement patterns in an original Aibo style, without copying any brand assets, wording, or exact visuals.
+
+NON-NEGOTIABLE RULES:
+1. Do not hallucinate. If any data is missing, leave a TODO placeholder or ask a precise question.
+2. Do not mix classes. Strict class_id isolation is mandatory.
+3. Do not reuse the same lesson content, quiz content, or screen flow across all classes.
+4. Do not generate generic filler UI. Every screen must have a clear purpose.
+5. Do not ignore the uploaded curriculum PDF. Use it as the source of truth for content structure.
+6. Do not load the entire 60-page curriculum at once. Start with a minimal seed set and build class-by-class.
+7. Keep the app lightweight, clean, and phone-first.
+8. Make it run on Android phone preview through Expo Go.
+9. Keep the code modular, maintainable, and easy to extend.
+
+TECH STACK:
+- React Native + Expo
+- TypeScript
+- Clean component-based structure
+- Framer Motion or Expo-compatible animation approach if available
+- Tailwind-style utility styling if supported in the chosen setup
+- PWA-compatible metadata if the project is deployed as a web-capable build
+
+BRAND SYSTEM:
+- Brand name: Aibo
+- Primary color: Aibo green
+- Use the uploaded Aibo logo as the core brand icon
+- UI tone: friendly, modern, motivating, and minimal
+- Must feel like a real mobile learning app
+
+SYSTEM LOGIC RULES:
+1. Content Isolation:
+   - Always filter by class_id.
+   - A Class 5 user must never see Class 10 content.
+2. Mastery:
+   - Use class-aware mastery logic.
+   - Class 5–6: Accuracy-heavy with lower speed weight.
+   - Class 9–10: More balanced with stronger consistency weight.
+3. XP:
+   - XP should be computed from base XP, difficulty multiplier, speed multiplier, and attempt decay.
+4. Localization:
+   - Language-first flow.
+   - Technical terms must show as "English [Local Translation]" when needed.
+   - Support at least: English, Hindi, Marathi, Gujarati, Tamil, Telugu, Bengali, Kannada.
+5. Daily Habit:
+   - Streak is day-based, not quiz-count based.
+   - One active day = one streak increment.
+
+APP FLOW:
+Build the app in this order:
+1. Splash screen
+2. Intro onboarding screens
+3. Language selection
+4. Grade selection
+5. Home dashboard
+6. Learning path
+7. Lesson flow
+8. Quiz flow
+9. Reward screen
+10. Return to home
+
+SCREEN-BY-SCREEN REQUIREMENTS:
+
+1. SPLASH
+- Center the Aibo logo.
+- White or light background.
+- Smooth fade-in.
+- Auto-advance after about 1.5–2 seconds.
+
+2. ONBOARDING
+- 3 screens only.
+- Screen 1: Learn AI easily.
+- Screen 2: Practice with fun quizzes.
+- Screen 3: Build daily learning habits.
+- Large readable text.
+- One primary button on each screen.
+
+3. LANGUAGE SELECTION
+- Show 8 languages.
+- Use large selectable cards.
+- Save selected language in state.
+- Clear selected state styling.
+
+4. GRADE SELECTION
+- Show Classes 5–10.
+- Card-based selection.
+- One selection required before continuing.
+- Save selected class in state.
+
+5. HOME DASHBOARD
+- Show Aibo title.
+- Show streak card.
+- Show XP card.
+- Show daily goal progress.
+- Show the learning path, not a flat list.
+
+6. LEARNING PATH
+- Use a vertical snake-style progression path.
+- Completed lesson nodes should be green.
+- Current lesson node should glow/highlight.
+- Locked lesson nodes should be grey and disabled.
+- Tap only unlocked nodes.
+- This must feel like a guided journey.
+
+7. LESSON FLOW
+Use the curriculum’s micro-learning structure:
+- Hook
+- Concept
+- Example
+- Interaction
+- Deeper explanation
+- Challenge
+- Reward
+
+Only one idea per screen.
+Show progress like Step 1/6.
+Do not put too much text on one screen.
+
+8. QUIZ FLOW
+Use a small set of reliable interaction types first:
+- MCQ tap
+- Swipe classification
+- Simple logic question
+- Optional short text question for older classes
+
+Each quiz must:
+- give instant feedback
+- update XP
+- show score at the end
+- return to reward/home cleanly
+
+9. REWARD SCREEN
+- Show XP earned.
+- Show streak update.
+- Show a continue button.
+- Make it feel rewarding and clean.
+
+MINIMAL CURRICULUM SEED DATA:
+Start with only a small representative seed set.
+Do not build the full curriculum yet.
+
+Use these seeds only:
+- Class 5: "What is AI?" -> MCQ: "What does A stand for?"
+- Class 7: "Decision Trees" -> interactive tree-follow task
+- Class 9: "Algorithms" -> short writing/definition task
+- Class 10: "Bias" -> swipe sorting task for good vs bad AI strategies
+
+Do not invent extra classes or extra lessons beyond this seed set unless explicitly instructed.
+
+REUSABLE COMPONENTS:
+Create these reusable UI pieces:
+- Duolingo-style primary button
+- Swipe card component
+- Vertical path node component
+- Bottom feedback bar
+- Progress header
+- Reward card
+
+LAYOUT RULES:
+- Must feel like a phone app, not a stretched web page
+- Mobile-first width
+- Clear spacing
+- Rounded cards
+- Soft shadows
+- Large tap targets
+- Scrollable where needed
+- No overflowing content
+
+ENGINEERING RULES:
+- Create a clean structure:
+  - App bootstrap
+  - Game state/context
+  - Curriculum data
+  - Reusable components
+  - Screen components
+- Keep logic separated from UI
+- Keep content isolated by class
+- Keep the code simple enough to expand later
+
+DELIVERABLE:
+Start by building only the Splash-to-Dashboard flow with the snake-style learning path and the minimal seed lessons.
+After that, report exactly which files were created or changed, and what remains TODO.
